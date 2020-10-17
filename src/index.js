@@ -1,47 +1,63 @@
-import {generate_year_range} from './functions/functions.js';
+import { generate_year_range } from "./functions/functions.js";
 import CreateCalender from "./CreateCalender.js";
 
-let calendar = document.getElementById("calendar");
-let lang = calendar.getAttribute("data-lang");
+class main {
+  constructor() {
+    this.today = new Date();
+    this.currentYear = this.today.getFullYear();
+    this.currentMonth = this.today.getMonth();
 
-let today = new Date();
-let currentMonth = today.getMonth();
-let currentYear = today.getFullYear();
-let selectYear = document.getElementById("year");
-let selectMonth = document.getElementById("month");
+    this.$_previous = document.getElementById("previous");
+    this.$_next = document.getElementById("next");
+    this.$_selectYear = document.getElementById("year");
+    this.$_selectMonth = document.getElementById("month");
 
-let createYear = generate_year_range(1970, 2200);
-document.getElementById("year").innerHTML = createYear;
+    let calendar = document.getElementById("calendar");
+    let lang = calendar.getAttribute("data-lang");
 
-selectYear.value = currentYear;
-selectMonth.value = currentMonth;
+    let createYear = generate_year_range(1970, 2200);
+    document.getElementById("year").innerHTML = createYear;
 
-let Calender = new CreateCalender();
-Calender.render();
+    this._setSelect();
 
-window.next = function () {
-  currentYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-  currentMonth = (currentMonth + 1) % 12;
+    this.Calender = new CreateCalender();
+    this.Calender.render();
 
-  selectYear.value = currentYear;
-  selectMonth.value = currentMonth;
-  
-  Calender.set(currentMonth, currentYear);
-  Calender.render();
+    this.handleEvents();
+  }
+  handleEvents() {
+    this.$_previous.addEventListener("click", this.previous.bind(this));
+    this.$_next.addEventListener("click", this.next.bind(this));
+    this.$_selectYear.addEventListener("change", this.jump.bind(this));
+    this.$_selectMonth.addEventListener("change", this.jump.bind(this));
+  }
+  next() {
+    this.currentYear =
+      this.currentMonth === 11 ? this.currentYear + 1 : this.currentYear;
+    this.currentMonth = (this.currentMonth + 1) % 12;
+    this._setSelect();
+    this._setCalender();
+  }
+  previous() {
+    this.currentYear =
+      this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
+    this.currentMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
+    this._setSelect();
+    this._setCalender();
+  }
+  jump() {
+    this.currentYear = parseInt(selectYear.value);
+    this.currentMonth = parseInt(selectMonth.value);
+    this._setCalender();
+  }
+  _setCalender() {
+    this.Calender.set(this.currentMonth, this.currentYear);
+    this.Calender.render();
+  }
+  _setSelect() {
+    this.$_selectYear.value = this.currentYear;
+    this.$_selectMonth.value = this.currentMonth;
+  }
 }
-window.previous = function() {
-  currentYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-  currentMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 
-  selectYear.value = currentYear;
-  selectMonth.value = currentMonth;
-
-  Calender.set(currentMonth, currentYear);
-  Calender.render();
-}
-window.jump = function() {
-  currentYear = parseInt(selectYear.value);
-  currentMonth = parseInt(selectMonth.value);
-  Calender.set(currentMonth, currentYear);
-  Calender.render();
-}
+new main();

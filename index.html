@@ -10,8 +10,8 @@
     <div class="container-calendar">
       <h4 id="monthAndYear"></h4>
       <div class="button-container-calendar">
-        <button id="previous" onclick="previous()">‹</button>
-        <button id="next" onclick="next()">›</button>
+        <button id="previous">‹</button>
+        <button id="next">›</button>
       </div>
 
       <table class="table-calendar" id="calendar" data-lang="ja">
@@ -21,7 +21,7 @@
 
       <div class="footer-container-calendar">
         <label for="month">日付指定：</label>
-        <select id="month" onchange="jump()">
+        <select id="month">
           <option value="0">1月</option>
           <option value="1">2月</option>
           <option value="2">3月</option>
@@ -35,7 +35,7 @@
           <option value="10">11月</option>
           <option value="11">12月</option>
         </select>
-        <select id="year" onchange="jump()"></select>
+        <select id="year"></select>
       </div>
     </div>
 
