@@ -46,8 +46,8 @@ class main {
     this._setCalender();
   }
   jump() {
-    this.currentYear = parseInt(selectYear.value);
-    this.currentMonth = parseInt(selectMonth.value);
+    this.currentYear = parseInt(this.$_selectYear.value);
+    this.currentMonth = parseInt(this.$_selectMonth.value);
     this._setCalender();
   }
   _setCalender() {
